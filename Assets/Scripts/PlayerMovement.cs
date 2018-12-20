@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class Player : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour {
     //config params
-    [SerializeField] float xSpeed;
-    [SerializeField] float ySpeed;
-    [SerializeField] float xOuterRange;
-    [SerializeField] float yOuterRange;
+    [SerializeField] float xSpeed = 15f;
+    [SerializeField] float ySpeed = 12f;
+    [SerializeField] float xOuterRange = 5f;
+    [SerializeField] float yOuterRange = 3f;
 
     [Header("Rotation")]
-    [SerializeField] float positionPitchFactor;
-    [SerializeField] float controlPitchFactor;
-    [SerializeField] float positionYawFactor;
-    [SerializeField] float controlRollFactor;
+    [SerializeField] float positionPitchFactor = -5f;
+    [SerializeField] float controlPitchFactor = -20f;
+    [SerializeField] float positionYawFactor = 5f;
+    [SerializeField] float controlRollFactor = -20f;
 
     //cache
     float horizontalThrow, verticalThrow;
-
-	void Start () {
-		
-	}
+    bool isControlEnabled = true;
 	
 	void Update ()
     {
-        ProcessTranslation();
-        ProcessRotation();
+        if (isControlEnabled)
+        {
+            ProcessTranslation();
+            ProcessRotation();
+        }
     }
 
     private void ProcessTranslation()
@@ -48,5 +48,9 @@ public class Player : MonoBehaviour {
         float yaw = transform.localPosition.x * positionYawFactor;
         float roll = horizontalThrow * controlRollFactor;
         transform.localRotation = Quaternion.Euler(pitch, yaw, roll);
+    }
+    void Freeze()
+    {
+        isControlEnabled = false;
     }
 }

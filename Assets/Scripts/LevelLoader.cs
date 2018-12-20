@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
-        Invoke("LoadStart", 2f);
-        DontDestroyOnLoad(gameObject);
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            Invoke("LoadStart", 2f);
+        }
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
