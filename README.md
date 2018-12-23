@@ -1,6 +1,6 @@
 # ArgonAssault
 
-Offshoot of 3D unity course by Gamedev.TV on udemy
+Offshoot of 3D unity course https://www.udemy.com/unitycourse2/ by Gamedev.TV on udemy
 
 Asset import
 Use https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-volume-2-nebula-3392 for skybox
