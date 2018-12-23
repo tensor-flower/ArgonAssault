@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour {
     //cache
     float horizontalThrow, verticalThrow;
     bool isControlEnabled = true;
+    GameObject bulletLeft, bulletRight;
 	
 	void Update ()
     {
@@ -26,12 +27,19 @@ public class PlayerMovement : MonoBehaviour {
         {
             ProcessTranslation();
             ProcessRotation();
+            ProcessFiring();
         }
+    }
+
+    void Start(){
+        bulletLeft = transform.Find("Bullets Left").gameObject;
+        bulletRight = transform.Find("Bullets Right").gameObject;
     }
 
     private void ProcessTranslation()
     {
         horizontalThrow = CrossPlatformInputManager.GetAxis("Horizontal");
+        //Debug.Log(horizontalThrow);
         verticalThrow = CrossPlatformInputManager.GetAxis("Vertical");
         float xOffset = horizontalThrow * xSpeed * Time.deltaTime; //x distance this frame
         float yOffset = verticalThrow * ySpeed * Time.deltaTime;
@@ -47,8 +55,26 @@ public class PlayerMovement : MonoBehaviour {
         float pitch = transform.localPosition.y * positionPitchFactor + verticalThrow * controlPitchFactor;
         float yaw = transform.localPosition.x * positionYawFactor;
         float roll = horizontalThrow * controlRollFactor;
-        transform.localRotation = Quaternion.Euler(pitch, yaw, roll);
+        transform.localRotation = Quaternion.Euler(pitch - 5, yaw, roll);
     }
+
+    void ProcessFiring(){
+        if(CrossPlatformInputManager.GetButton("Jump")){
+            SetBullet(true);
+            //bulletLeft.SetActive(true);
+            //bulletRight.SetActive(true);
+        }else{
+            SetBullet(false);
+        }
+    }
+
+    void SetBullet(bool isActive){
+        ParticleSystem.EmissionModule emLeft = bulletLeft.GetComponent<ParticleSystem>().emission;
+        ParticleSystem.EmissionModule emRight = bulletRight.GetComponent<ParticleSystem>().emission;
+        emLeft.enabled = isActive;
+        emRight.enabled = isActive;
+    }
+
     void Freeze()
     {
         isControlEnabled = false;

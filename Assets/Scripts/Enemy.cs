@@ -7,10 +7,11 @@ public class Enemy : MonoBehaviour {
     //config params
     [SerializeField] GameObject explosionFX;
     [SerializeField] int destroyScore;
+    [SerializeField] int hitPoint;
 
     //cache
     BoxCollider myCollider;
-    bool isHit = false;
+    bool isAlive = true;
     ScoreBoard scoreBoard;
 
     private void Start()
@@ -23,15 +24,22 @@ public class Enemy : MonoBehaviour {
     private void OnParticleCollision(GameObject other)
     {
         Debug.Log(gameObject.name + " collided with " + other.gameObject.name);
+        DecreaseHitPoint();
         //explosionFX = transform.Find("Explosion").gameObject;
         //explosionFX.SetActive(true);
-        if(!isHit)
-        {
-            isHit = true;         
-            scoreBoard.AddScore(destroyScore);  
+        if(!isAlive)
+        {      
+            scoreBoard.AddScore(destroyScore); //TODO sometimes still double add score
             GameObject explosion = Instantiate(explosionFX, transform.position, Quaternion.identity);
             Destroy(explosion, 1f);
             Destroy(gameObject);
+        }
+    }
+
+    void DecreaseHitPoint(){
+        hitPoint -= 1;
+        if(hitPoint<=0){
+            isAlive = false;
         }
     }
 

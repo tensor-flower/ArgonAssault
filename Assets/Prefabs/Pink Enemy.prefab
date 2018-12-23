@@ -98,3 +98,4 @@ MonoBehaviour:
   explosionFX: {fileID: 1268223987957128, guid: 520e45cc21b4e4da5b6978b182eb4968,
     type: 2}
   destroyScore: 50
+  hitPoint: 6
